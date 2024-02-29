@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label 'staging'
+        label 'project1'
     }
     environment {
         DOCKER_IMAGE_NAME = "devrajshourya/train-schedule"
