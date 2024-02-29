@@ -5,9 +5,19 @@ pipeline {
     environment {
         DOCKER_IMAGE_NAME = "devrajshourya/train-schedule"
     }
+
     stages {
+    	stage('Build') {
+            steps {
+                echo 'Running build automation'
+                sh './gradlew build --no-daemon'
+                archiveArtifacts artifacts: 'dist/trainSchedule.zip'
+            }
+        }
         stage('Build Docker Image') {
-            
+            when {
+                branch 'main'
+            }
             steps {
                 script {
                     app = docker.build(DOCKER_IMAGE_NAME)
@@ -21,9 +31,8 @@ pipeline {
            
             steps {
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-creds') {
+                    docker.withRegistry('', 'dockerhub-creds') {
                         app.push("${env.BUILD_NUMBER}")
-                        app.push("latest")
                     }
                 }
             }
