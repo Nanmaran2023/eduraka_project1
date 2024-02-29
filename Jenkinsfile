@@ -8,9 +8,6 @@ pipeline {
 
     stages {
         stage('Build Docker Image') {
-            when {
-                branch 'main'
-            }
             steps {
                 script {
                     app = docker.build(DOCKER_IMAGE_NAME)
@@ -21,7 +18,6 @@ pipeline {
             }
         }
         stage('Push Docker Image') {
-           
             steps {
                 script {
                     docker.withRegistry('', 'dockerhub-creds') {
@@ -31,7 +27,6 @@ pipeline {
             }
         }
         stage('CanaryDeploy') {
-            
             environment { 
                 CANARY_REPLICAS = 1
             }
