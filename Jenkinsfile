@@ -7,9 +7,7 @@ pipeline {
     }
     stages {
         stage('Build Docker Image') {
-            when {
-                branch 'main'
-            }
+            
             steps {
                 script {
                     app = docker.build(DOCKER_IMAGE_NAME)
@@ -20,9 +18,7 @@ pipeline {
             }
         }
         stage('Push Docker Image') {
-            when {
-                branch 'main'
-            }
+           
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-creds') {
@@ -33,9 +29,7 @@ pipeline {
             }
         }
         stage('CanaryDeploy') {
-            when {
-                branch 'main'
-            }
+            
             environment { 
                 CANARY_REPLICAS = 1
             }
