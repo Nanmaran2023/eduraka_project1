@@ -10,7 +10,6 @@ pipeline {
     	stage('Checkout'){
     	    steps {
     	    	git branch: 'main', url: 'https://github.com/DevShourya/myproject1.git'
-    	    	//checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/DevShourya/myproject1.git']])
     	    }
     	}
     	stage('Build') {
@@ -39,17 +38,17 @@ pipeline {
                 }
             }
         }
-//        stage('CanaryDeploy') {
-//            environment { 
-//                CANARY_REPLICAS = 1
-//            }
-//            steps {
-//               kubernetesDeploy(
-//                    kubeconfigId: 'my-aks-cluster',
-//                    configs: 'train-schedule-kube-canary.yml',
-//                   enableConfigSubstitution: true
-//                )
-//            }
-//        }
+        stage('CanaryDeploy') {
+            environment { 
+                CANARY_REPLICAS = 1
+            }
+            steps {
+               kubernetesDeploy(
+                    kubeconfigId: 'my-aks-cluster',
+                    configs: 'train-schedule-kube-canary.yml',
+                   enableConfigSubstitution: true
+                )
+            }
+        }
     }
 }
