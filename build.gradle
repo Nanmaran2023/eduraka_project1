@@ -7,7 +7,7 @@ node {
 	download = true
 	distBaseUrl = 'https://direct.nodejs.org/dist/'
 	version = "20.11.1"
-	npmVersion = "20.11.1"
+	npmVersion = "9.9.3"
 }
 
 //declare a build task
