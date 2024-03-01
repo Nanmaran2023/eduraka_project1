@@ -9,9 +9,7 @@ pipeline {
     stages {
     	stage('Checkout SCM'){
     	    steps {
-    	    	checkout
-    	    	scmGit(branches: [[name: '*/main']], extensions: [],
-    	    	userRemoteConfigs: [[url: 'https://github.com/DevShourya/myproject1.git']])
+    	    	checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/DevShourya/myproject1.git']])
     	    }
     	}
     	stage('Build') {
