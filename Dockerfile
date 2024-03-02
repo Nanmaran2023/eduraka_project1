@@ -1,7 +1,6 @@
-FROM node:carbon
-WORKDIR /usr/src/app
-COPY package*.json ./
-RUN npm install
+FROM devopsedu/webapp 
+From php:apache
+WORKDIR /var/www/html
 COPY . .
-EXPOSE 8080
-CMD [ "npm", "start" ]
+EXPOSE 80
+CMD [“apache2-foreground”]
