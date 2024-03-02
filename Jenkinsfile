@@ -9,7 +9,7 @@ pipeline {
     stages {
     	stage('Checkout'){
     	    steps {
-    	    	git branch: 'main', url: 'https://github.com/DevShourya/myproject1.git'
+    	    	git branch: 'main', url: 'https://github.com/Nanmaran2023/eduraka_project1.git'
     	    }
     	}
     	stage('Build') {
