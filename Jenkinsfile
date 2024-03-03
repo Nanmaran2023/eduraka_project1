@@ -1,7 +1,7 @@
 pipeline {
     agent any
+
     environment {
-        //be sure to replace "bhavukm" with your own Docker Hub username
         DOCKER_IMAGE_NAME = "nanmarandevops/train-schedule"
     }
     stages {
@@ -10,7 +10,7 @@ pipeline {
     	    	git branch: 'main', url: 'https://github.com/Nanmaran2023/eduraka_project1.git'
     	    }
     	}
-        stage('Build') {
+    	stage('Build') {
             steps {
                 echo 'Running build automation'
                 sh './gradlew build --no-daemon'
@@ -18,9 +18,6 @@ pipeline {
             }
         }
         stage('Build Docker Image') {
-            when {
-                branch 'main'
-            }
             steps {
                 script {
                     app = docker.build(DOCKER_IMAGE_NAME)
@@ -31,56 +28,25 @@ pipeline {
             }
         }
         stage('Push Docker Image') {
-            when {
-                branch 'main'
-            }
             steps {
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'docker_hub_login') {
+                    docker.withRegistry('', 'dockerhub-creds') {
                         app.push("${env.BUILD_NUMBER}")
-                        app.push("latest")
                     }
                 }
             }
         }
         stage('CanaryDeploy') {
-            when {
-                branch 'main'
-            }
-            environment { 
+            environment {
                 CANARY_REPLICAS = 1
             }
             steps {
-                kubernetesDeploy(
-                    kubeconfigId: 'kubeconfig',
+               kubernetesDeploy(
+                    kubeconfigId: 'my-aks-cluster',
                     configs: 'train-schedule-kube-canary.yml',
-                    enableConfigSubstitution: true
-                )
-            }
-        }
-        stage('DeployToProduction') {
-            when {
-                branch 'main'
-            }
-            environment { 
-                CANARY_REPLICAS = 0
-            }
-            steps {
-                input 'Deploy to Production?'
-                milestone(1)
-                kubernetesDeploy(
-                    kubeconfigId: 'kubeconfig',
-                    configs: 'train-schedule-kube-canary.yml',
-                    enableConfigSubstitution: true
-                )
-                kubernetesDeploy(
-                    kubeconfigId: 'kubeconfig',
-                    configs: 'train-schedule-kube.yml',
-                    enableConfigSubstitution: true
+                   enableConfigSubstitution: true
                 )
             }
         }
     }
 }
-
-    
