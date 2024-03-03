@@ -5,7 +5,6 @@ pipeline {
         DOCKER_IMAGE_NAME = "nanmarandevops/train-schedule"
     }
     stages {
-         stages {
     	stage('Checkout'){
     	    steps {
     	    	git branch: 'main', url: 'https://github.com/Nanmaran2023/eduraka_project1.git'
