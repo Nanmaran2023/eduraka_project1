@@ -1,5 +1,6 @@
 pipeline {
-    agent all 
+    agent any
+    
        environment {
         DOCKER_IMAGE_NAME = "nanmarandevops/train-schedule"
     }
