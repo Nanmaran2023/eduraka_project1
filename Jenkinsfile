@@ -3,7 +3,7 @@ pipeline {
         label 'project1'
     }
     environment {
-        DOCKER_IMAGE_NAME = "Nanmaran2023/train-schedule"
+        DOCKER_IMAGE_NAME = "nanmarandevops/train-schedule"
     }
 
     stages {
